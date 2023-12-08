@@ -1,6 +1,6 @@
 {
   "name": "common_functionality",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/Siddharthsavaliya/node-demo-pakage/issues"
   },
-  "homepage": "https://github.com/Siddharthsavaliya/node-demo-pakage#readme"
+  "homepage": "https://github.com/Siddharthsavaliya/node-demo-pakage#readme",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "path": "^0.12.7"
+  }
 }
