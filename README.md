@@ -1,1 +1,1 @@
-# node-demo-pakage
+# node-common-functionality
