@@ -1,6 +1,10 @@
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const { program } = require('commander');
 
+program
+    .option('--createStruct')
+program.parse();
 // create folder
 async function createFolderInRoot(folderName) {
     try {
@@ -19,8 +23,11 @@ async function createCommonFolder() {
     await createFolderInRoot('./model')
     return
 }
+const options = program.opts();
 
-
+if (options.createStruct) {
+    createCommonFolder();
+}
 // jwt authentication
 function createToken(payload, secretKey, options,) {
     try {
