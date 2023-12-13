@@ -59,4 +59,4 @@ function verifyToken(req, res, next) {
         return res.status(401).json({ message: 'Unauthorized - Invalid token' });
     }
 }
-module.exports = { createCommonFolder, createToken, verifyToken };
+module.exports = { createToken, verifyToken };
