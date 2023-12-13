@@ -10,9 +10,6 @@
     "type": "git",
     "url": "git+https://github.com/Siddharthsavaliya/node-demo-pakage.git"
   },
-  "keywords": [
-    "conman"
-  ],
   "author": "dev sid",
   "license": "ISC",
   "bugs": {
