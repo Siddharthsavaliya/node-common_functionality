@@ -1,6 +1,10 @@
 const fs = require('fs');
 const { program } = require('commander');
 const path = require('path');
+const { sendEmail, sendMessage } = require('./utils/sms_services');
+const { createToken, verifyToken } = require('./utils/jwt');
+const { tryCatch } = require('./utils/trycatch');
+const { logger } = require('./utils/logger');
 // command declaration
 program
     .option('--createStruct')
@@ -61,4 +65,4 @@ if (options.createStruct) {
 if (options.createFile) {
     createFile(program.args[0])
 }
-
+module.exports = { sendEmail, sendMessage, createToken, verifyToken, tryCatch, logger };
