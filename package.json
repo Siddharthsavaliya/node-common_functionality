@@ -1,6 +1,6 @@
 {
   "name": "common_functionality",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,10 @@
   "homepage": "https://github.com/Siddharthsavaliya/node-demo-pakage#readme",
   "dependencies": {
     "commander": "^11.1.0",
+    "crypto-ts": "^1.0.2",
+    "ejs": "^3.1.9",
     "jsonwebtoken": "^9.0.2",
+    "moment": "^2.29.4",
     "nodemailer": "^6.9.7",
     "path": "^0.12.7",
     "twilio": "^4.20.0",

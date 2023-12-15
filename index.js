@@ -1,68 +1,67 @@
 const fs = require('fs');
 const { program } = require('commander');
 const path = require('path');
-const { sendEmail, sendMessage } = require('./utils/sms_services');
+const { sendEmail, sendMessage } = require('./utils/sms');
 const { createToken, verifyToken } = require('./utils/jwt');
 const { tryCatch } = require('./utils/trycatch');
 const { logger } = require('./utils/logger');
 // command declaration
 program
     .option('--createStruct')
-    .option('--createFile')
-    .option('-s, --separator <char>');
 program.parse();
-
-// create folder
-async function createFolderInRoot(folderName) {
-    try {
-        await fs.mkdirSync(folderName);
-        return true;
-    } catch (err) {
-        console.error(`Error creating folder "${folderName}": ${err.message}`);
-    }
+function createFolderIfNotExists(folderPath, callback) {
+    fs.stat(folderPath, (err, stats) => {
+        if (err && err.code === 'ENOENT') {
+            fs.mkdir(folderPath, { recursive: true }, (mkdirErr) => {
+                if (mkdirErr) {
+                    console.error('Error creating folder:', mkdirErr.message);
+                } else {
+                    console.log(`Folder created: ${folderPath}`);
+                }
+                callback();
+            });
+        } else {
+            callback();
+        }
+    });
 }
 
-// create file function
-async function createJSFile(folderPath, fileName) {
-    // Ensure the folder path exists
-    if (!fs.existsSync(folderPath)) {
-        fs.mkdirSync(folderPath, { recursive: true });
-    }
-
-    // Construct the file path with the .js extension
-    const filePath = path.join(folderPath, `${fileName}.js`);
-
-    // Create the file
-    fs.writeFileSync(filePath, '');
-
-    console.log(`File "${fileName}.js" created successfully in folder "${folderPath}".`);
-}
-
-// create common folder
-async function createCommonFolder() {
-    await createFolderInRoot('./routes')
-    await createFolderInRoot('./middleware')
-    await createFolderInRoot('./controller')
-    await createFolderInRoot('./utils')
-    await createFolderInRoot('./model')
-    return
+function copyFile(sourcePath, destinationPath, folderName) {
+    fs.readFile(sourcePath, 'utf-8', (readErr, existingContent) => {
+        if (readErr) {
+            console.error('Error reading file:', readErr.message);
+        } else {
+            createFolderIfNotExists(folderName, () => {
+                fs.writeFile(destinationPath, existingContent, 'utf-8', (writeErr) => {
+                    if (writeErr) {
+                        console.error('Error writing file:', writeErr.message);
+                    } else {
+                        console.log('File created successfully!');
+                    }
+                });
+            });
+        }
+    });
 }
 
 // create file in all three folders
-async function createFile(fileName) {
-    await createJSFile('./routes', fileName)
-    await createJSFile('./controller', fileName)
-    await createJSFile('./model', fileName)
-    return
+function createFile() {
+    copyFile('./node_modules/common_functionality/utils/common.js', './utils/common.js', './utils');
+    copyFile('./node_modules/common_functionality/utils/email.js', './utils/email.js', './utils');
+    copyFile('./node_modules/common_functionality/utils/sms.js', './utils/sms.js', './utils');
+    copyFile('./node_modules/common_functionality/utils/jwt.js', './utils/jwt.js', './utils');
+    copyFile('./node_modules/common_functionality/utils/template/welcome.js', './utils/template/welcome.js', './utils/template');
+    copyFile('./node_modules/common_functionality/.env', './.env', '.');
+    copyFile('./node_modules/common_functionality/.gitignore', './.gitignore', '.');
 }
+
 
 const options = program.opts();
 // create folder command listener  
 if (options.createStruct) {
-    createCommonFolder();
+    createFile();
 }
-// create file command listener  
-if (options.createFile) {
-    createFile(program.args[0])
-}
-module.exports = { sendEmail, sendMessage, createToken, verifyToken, tryCatch, logger };
+
+
+
+

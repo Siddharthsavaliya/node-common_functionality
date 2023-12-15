@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 
 // jwt authentication
-function createToken(payload, secretKey, options,) {
+function createToken(payload, options,) {
     try {
-        const token = jwt.sign(payload, secretKey, options);
+        const token = jwt.sign(payload, process.env.JWT_SECRET, options);
         return token;
     } catch (error) {
         throw new Error('Error creating JWT token');
