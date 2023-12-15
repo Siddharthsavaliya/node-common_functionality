@@ -1,10 +1,13 @@
 const fs = require('fs');
-const jwt = require('jsonwebtoken');
 const { program } = require('commander');
-
+const path = require('path');
+// command declaration
 program
     .option('--createStruct')
+    .option('--createFile')
+    .option('-s, --separator <char>');
 program.parse();
+
 // create folder
 async function createFolderInRoot(folderName) {
     try {
@@ -15,48 +18,47 @@ async function createFolderInRoot(folderName) {
     }
 }
 
+// create file function
+async function createJSFile(folderPath, fileName) {
+    // Ensure the folder path exists
+    if (!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath, { recursive: true });
+    }
+
+    // Construct the file path with the .js extension
+    const filePath = path.join(folderPath, `${fileName}.js`);
+
+    // Create the file
+    fs.writeFileSync(filePath, '');
+
+    console.log(`File "${fileName}.js" created successfully in folder "${folderPath}".`);
+}
+
 // create common folder
 async function createCommonFolder() {
     await createFolderInRoot('./routes')
     await createFolderInRoot('./middleware')
     await createFolderInRoot('./controller')
+    await createFolderInRoot('./utils')
     await createFolderInRoot('./model')
     return
 }
-const options = program.opts();
 
+// create file in all three folders
+async function createFile(fileName) {
+    await createJSFile('./routes', fileName)
+    await createJSFile('./controller', fileName)
+    await createJSFile('./model', fileName)
+    return
+}
+
+const options = program.opts();
+// create folder command listener  
 if (options.createStruct) {
     createCommonFolder();
 }
-// jwt authentication
-function createToken(payload, secretKey, options,) {
-    try {
-        const token = jwt.sign(payload, secretKey, options);
-        return token;
-    } catch (error) {
-        throw new Error('Error creating JWT token');
-    }
+// create file command listener  
+if (options.createFile) {
+    createFile(program.args[0])
 }
 
-function verifyToken(req, res, next) {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-        return res.status(401).json({ message: 'Unauthorized - Token not provided' });
-    }
-
-    const [bearer, token] = authHeader.split(' ');
-
-    if (bearer !== 'Bearer' || !token) {
-        return res.status(401).json({ message: 'Unauthorized - Invalid authorization header' });
-    }
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        return res.status(401).json({ message: 'Unauthorized - Invalid token' });
-    }
-}
-module.exports = { createToken, verifyToken };
