@@ -46,6 +46,10 @@ function copyFile(sourcePath, destinationPath, folderName) {
 
 // create file in all three folders
 function createFile() {
+    createFolderIfNotExists('./utils')
+    createFolderIfNotExists('./middleware')
+    createFolderIfNotExists('./controllers')
+    createFolderIfNotExists('./models')
     copyFile('./node_modules/common_functionality/utils/common.js', './utils/common.js', './utils');
     copyFile('./node_modules/common_functionality/utils/email.js', './utils/email.js', './utils');
     copyFile('./node_modules/common_functionality/utils/sms.js', './utils/sms.js', './utils');
