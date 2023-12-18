@@ -29,24 +29,24 @@ function createFolderIfNotExists(folderPath, callback) {
 function copyFile(sourcePath, destinationPath, folderName) {
     console.log(sourcePath)
     fs.readFile(sourcePath, 'utf-8', (readErr, existingContent) => {
-        console.log('1')
+
         if (readErr) {
-            console.log('2')
+
             console.error('Error reading file:', readErr.message);
         } else {
-            console.log('3')
+
             createFolderIfNotExists(folderName, () => {
-                console.log('4')
+
                 console.log(folderName)
                 fs.writeFile(destinationPath, existingContent, 'utf-8', (writeErr) => {
-                    console.log('5')
+
                     if (writeErr) {
-                        console.log('6')
+
                         console.log(writeErr)
                         console.log(writeErr.message)
                         console.error('Error writing file:', writeErr.message);
                     } else {
-                        console.log('7')
+
                         console.log('File created successfully!');
                     }
                 });
