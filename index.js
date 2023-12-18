@@ -41,9 +41,6 @@ function copyFile(sourcePath, destinationPath, folderName) {
                 fs.writeFile(destinationPath, existingContent, 'utf-8', (writeErr) => {
 
                     if (writeErr) {
-
-                        console.log(writeErr)
-                        console.log(writeErr.message)
                         console.error('Error writing file:', writeErr.message);
                     } else {
 
