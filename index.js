@@ -1,10 +1,6 @@
 const fs = require('fs');
 const { program } = require('commander');
-const path = require('path');
-const { sendEmail, sendMessage } = require('./utils/sms');
-const { createToken, verifyToken } = require('./utils/jwt');
-const { tryCatch } = require('./utils/trycatch');
-const { logger } = require('./utils/logger');
+
 // command declaration
 program
     .option('--createStruct')
@@ -18,24 +14,39 @@ function createFolderIfNotExists(folderPath, callback) {
                 } else {
                     console.log(`Folder created: ${folderPath}`);
                 }
-                callback();
+                if (callback && typeof callback === 'function') {
+                    callback();
+                }
             });
         } else {
-            callback();
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
         }
     });
 }
 
 function copyFile(sourcePath, destinationPath, folderName) {
+    console.log(sourcePath)
     fs.readFile(sourcePath, 'utf-8', (readErr, existingContent) => {
+        console.log('1')
         if (readErr) {
+            console.log('2')
             console.error('Error reading file:', readErr.message);
         } else {
+            console.log('3')
             createFolderIfNotExists(folderName, () => {
+                console.log('4')
+                console.log(folderName)
                 fs.writeFile(destinationPath, existingContent, 'utf-8', (writeErr) => {
+                    console.log('5')
                     if (writeErr) {
+                        console.log('6')
+                        console.log(writeErr)
+                        console.log(writeErr.message)
                         console.error('Error writing file:', writeErr.message);
                     } else {
+                        console.log('7')
                         console.log('File created successfully!');
                     }
                 });
@@ -50,11 +61,12 @@ function createFile() {
     createFolderIfNotExists('./middleware')
     createFolderIfNotExists('./controllers')
     createFolderIfNotExists('./models')
+    createFolderIfNotExists('./utils/template')
     copyFile('./node_modules/common_functionality/utils/common.js', './utils/common.js', './utils');
     copyFile('./node_modules/common_functionality/utils/email.js', './utils/email.js', './utils');
     copyFile('./node_modules/common_functionality/utils/sms.js', './utils/sms.js', './utils');
     copyFile('./node_modules/common_functionality/utils/jwt.js', './utils/jwt.js', './utils');
-    copyFile('./node_modules/common_functionality/utils/template/welcome.js', './utils/template/welcome.js', './utils/template');
+    copyFile('./node_modules/common_functionality/utils/template/welcome.ejs', './utils/template/welcome.ejs', './utils/template');
     copyFile('./node_modules/common_functionality/.env', './.env', '.');
     copyFile('./node_modules/common_functionality/.gitignore', './.gitignore', '.');
 }
