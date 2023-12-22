@@ -1,6 +1,6 @@
 {
   "name": "common_functionality",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,12 +17,16 @@
   },
   "homepage": "https://github.com/Siddharthsavaliya/node-demo-pakage#readme",
   "dependencies": {
+    "@google-cloud/storage": "^7.7.0",
+    "aws-sdk": "^2.1524.0",
     "commander": "^11.1.0",
     "common_functionality": "^2.0.1",
     "crypto-ts": "^1.0.2",
     "ejs": "^3.1.9",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.29.4",
+    "morgan": "^1.10.0",
+    "node-cron": "^3.0.3",
     "nodemailer": "^6.9.7",
     "path": "^0.12.7",
     "twilio": "^4.20.0",

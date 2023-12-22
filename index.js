@@ -5,6 +5,7 @@ const { program } = require('commander');
 program
     .option('--createStruct')
 program.parse();
+
 function createFolderIfNotExists(folderPath, callback) {
     fs.stat(folderPath, (err, stats) => {
         if (err && err.code === 'ENOENT') {
@@ -63,6 +64,8 @@ function createFile() {
     copyFile('./node_modules/common_functionality/utils/email.js', './utils/email.js', './utils');
     copyFile('./node_modules/common_functionality/utils/sms.js', './utils/sms.js', './utils');
     copyFile('./node_modules/common_functionality/utils/jwt.js', './utils/jwt.js', './utils');
+    copyFile('./node_modules/common_functionality/utils/cron.js', './utils/cron.js', './utils');
+    copyFile('./node_modules/common_functionality/utils/file_upload.js', './utils/file_upload.js', './utils');
     copyFile('./node_modules/common_functionality/utils/template/welcome.ejs', './utils/template/welcome.ejs', './utils/template');
     copyFile('./node_modules/common_functionality/.env', './.env', '.');
     copyFile('./node_modules/common_functionality/.gitignore', './.gitignore', '.');
