@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Siddharthsavaliya/node-demo-pakage#readme",
   "dependencies": {
+    "@azure/storage-blob": "^12.17.0",
     "@google-cloud/storage": "^7.7.0",
     "aws-sdk": "^2.1524.0",
     "commander": "^11.1.0",
