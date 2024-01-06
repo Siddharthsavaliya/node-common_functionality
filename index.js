@@ -69,6 +69,7 @@ function createFile() {
     copyFile('./node_modules/common_functionality/utils/template/welcome.ejs', './utils/template/welcome.ejs', './utils/template');
     copyFile('./node_modules/common_functionality/.env', './.env', '.');
     copyFile('./node_modules/common_functionality/.gitignore', './.gitignore', '.');
+    copyFile('./node_modules/common_functionality/app.js', './app.js', '.');
 }
 
 
