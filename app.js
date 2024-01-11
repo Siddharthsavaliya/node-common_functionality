@@ -43,3 +43,8 @@ app.use((req, res) => {
         message: "Error serving the request !",
     });
 });
+
+// server
+app.listen(process.env.Port, () => {
+    console.log(`Server is running on port ${process.env.Port}`);
+});
